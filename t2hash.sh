@@ -85,7 +85,7 @@ module_tunnel_health() {
     echo -e "${WHITE}--- [ 3. Automated Status Analyzer ] ---${NC}"
     echo -e "${YELLOW}Tahlil khodkar vaziyat filter shodan ya vasl shodan tunnel.${NC}\n"
 
-    read -p "Domain (e.g. t2hash.site): " my_domain
+    read -p "Domain (e.g. masalan.com): " my_domain
     read -p "Port (e.g. 443): " my_port
     my_port=${my_port:-443}
 
