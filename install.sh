@@ -10,6 +10,7 @@ BINARY_NAME="t2hash-scanner"
 SERVICE_NAME="t2hash-scanner"
 DEFAULT_PORT="8080"
 WORK_DIR="/opt/t2hash-scanner"
+MODULE_NAME="t2hash-scanner"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -40,7 +41,7 @@ Usage: bash install.sh [options]
 Options:
   --service          Install as a systemd service
   --port PORT        Custom port (default: 8080)
-  --skip-go          Don't install Go (use existing)
+  --skip-go          Skip Go installation
   -h, --help         Show this help
 
 Examples:
@@ -64,19 +65,19 @@ print_banner() {
 BANNER
   echo -e "${PURPLE}              S C A N N E R   v${VERSION}${RESET}"
   echo
-  echo -e "${DIM}      ┌─────────────────────────────────────────┐${RESET}"
-  echo -e "${DIM}      │${RESET}  ${PINK}▶${RESET} YouTube : ${BOLD}@T2hsh${RESET}                  ${DIM}│${RESET}"
-  echo -e "${DIM}      │${RESET}  ${CYAN}✈${RESET} Telegram: ${BOLD}@T2HASHCHANNEL${RESET}          ${DIM}│${RESET}"
-  echo -e "${DIM}      │${RESET}  ${GREEN}⌥${RESET} GitHub  : ${BOLD}@T2HASH${RESET}                 ${DIM}│${RESET}"
-  echo -e "${DIM}      └─────────────────────────────────────────┘${RESET}"
+  echo -e "${DIM}      +-----------------------------------------+${RESET}"
+  echo -e "${DIM}      |${RESET}  ${PINK}>${RESET} YouTube : ${BOLD}@T2hsh${RESET}                  ${DIM}|${RESET}"
+  echo -e "${DIM}      |${RESET}  ${CYAN}>${RESET} Telegram: ${BOLD}@T2HASHCHANNEL${RESET}          ${DIM}|${RESET}"
+  echo -e "${DIM}      |${RESET}  ${GREEN}>${RESET} GitHub  : ${BOLD}@T2HASH${RESET}                 ${DIM}|${RESET}"
+  echo -e "${DIM}      +-----------------------------------------+${RESET}"
   echo
 }
 
-log()  { echo -e "${GREEN}[✓]${RESET} $*"; }
-info() { echo -e "${CYAN}[→]${RESET} $*"; }
-warn() { echo -e "${YELLOW}[!]${RESET} $*"; }
-die()  { echo -e "${RED}[✗]${RESET} $*"; exit 1; }
-step() { echo -e "\n${PURPLE}━━━ $* ━━━${RESET}\n"; }
+log()  { echo -e "${GREEN}[OK]${RESET}   $*"; }
+info() { echo -e "${CYAN}[..]${RESET}   $*"; }
+warn() { echo -e "${YELLOW}[!!]${RESET}   $*"; }
+die()  { echo -e "${RED}[XX]${RESET}   $*"; exit 1; }
+step() { echo -e "\n${PURPLE}=== $* ===${RESET}\n"; }
 
 detect_arch() {
   case "$(uname -m)" in
@@ -101,15 +102,15 @@ check_deps() {
     command -v "$cmd" &>/dev/null || missing+=("$cmd")
   done
   if [[ ${#missing[@]} -gt 0 ]]; then
-    warn "نصب پیش‌نیازها: ${missing[*]}"
+    warn "Installing missing deps: ${missing[*]}"
     if command -v apt-get &>/dev/null; then
-      apt-get update -qq && apt-get install -y "${missing[@]}" curl tar
+      apt-get update -qq && apt-get install -y curl tar unzip
     elif command -v yum &>/dev/null; then
-      yum install -y "${missing[@]}" curl tar
+      yum install -y curl tar unzip
     elif command -v apk &>/dev/null; then
-      apk add --no-cache "${missing[@]}" curl tar
+      apk add --no-cache curl tar unzip
     else
-      die "Package manager پیدا نشد. دستی نصب کن: ${missing[*]}"
+      die "Package manager not found. Install manually: ${missing[*]}"
     fi
   fi
 }
@@ -134,10 +135,10 @@ install_go() {
   url="https://go.dev/dl/${tarball}"
   tmpdir="$(mktemp -d)"
 
-  info "دانلود Go ${GO_VERSION} برای ${os}/${arch}..."
-  curl -fsSL -# "$url" -o "${tmpdir}/${tarball}" || die "دانلود ناموفق"
+  info "Downloading Go ${GO_VERSION} (${os}/${arch})..."
+  curl -fsSL -# "$url" -o "${tmpdir}/${tarball}" || die "Download failed"
 
-  info "نصب Go در ${INSTALL_DIR}..."
+  info "Installing Go to ${INSTALL_DIR}..."
   rm -rf "${INSTALL_DIR}/go"
   tar -C "$INSTALL_DIR" -xzf "${tmpdir}/${tarball}"
   rm -rf "$tmpdir"
@@ -153,7 +154,7 @@ install_go() {
     fi
   done
 
-  log "Go ${GO_VERSION} نصب شد"
+  log "Go ${GO_VERSION} installed"
 }
 
 fetch_source() {
@@ -164,47 +165,51 @@ fetch_source() {
   script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
 
   if [[ -f "${script_dir}/main.go" ]] && [[ "$script_dir" != "$WORK_DIR" ]]; then
-    info "کپی فایل‌های لوکال به ${WORK_DIR}..."
+    info "Copying local files to ${WORK_DIR}..."
     cp "${script_dir}/main.go" "$WORK_DIR/"
     [[ -f "${script_dir}/README.md" ]] && cp "${script_dir}/README.md" "$WORK_DIR/"
-    log "فایل‌ها کپی شدن"
-    return
+    log "Files copied"
+  elif [[ ! -f "$WORK_DIR/main.go" ]]; then
+    info "Downloading source from GitHub..."
+    curl -fsSL "${RAW_URL}/main.go" -o "$WORK_DIR/main.go" || die "main.go download failed"
+    log "Source downloaded"
+  else
+    info "Source already present"
   fi
 
-  if [[ ! -f "$WORK_DIR/main.go" ]]; then
-    info "دانلود سورس از GitHub..."
-    curl -fsSL "${RAW_URL}/main.go" -o "$WORK_DIR/main.go" || die "دانلود main.go ناموفق"
-    log "سورس دانلود شد"
-  else
-    info "سورس از قبل موجوده"
+  if [[ ! -f "$WORK_DIR/go.mod" ]]; then
+    info "Initializing Go module..."
+    cd "$WORK_DIR"
+    go mod init "$MODULE_NAME" >/dev/null 2>&1 || die "go mod init failed"
+    log "go.mod created"
   fi
 }
 
 build_binary() {
   cd "$WORK_DIR"
-  info "ساخت باینری (ldflags=-s -w)..."
-  go build -ldflags="-s -w" -o "$BINARY_NAME" . || die "Build ناموفق"
+  info "Building binary (ldflags=-s -w)..."
+  go build -ldflags="-s -w" -o "$BINARY_NAME" . || die "Build failed"
   chmod +x "$BINARY_NAME"
   local size
   size=$(du -h "$BINARY_NAME" | cut -f1)
-  log "باینری ساخته شد: ${WORK_DIR}/${BINARY_NAME} (${size})"
+  log "Binary built: ${WORK_DIR}/${BINARY_NAME} (${size})"
 }
 
 install_binary() {
   local dest="/usr/local/bin/${BINARY_NAME}"
-  info "نصب در ${dest}..."
+  info "Installing to ${dest}..."
   cp "${WORK_DIR}/${BINARY_NAME}" "$dest"
   chmod +x "$dest"
-  log "نصب کامل شد: ${dest}"
+  log "Installed: ${dest}"
 }
 
 install_systemd_service() {
   local binary_path="/usr/local/bin/${BINARY_NAME}"
   local service_file="/etc/systemd/system/${SERVICE_NAME}.service"
 
-  [[ -f "$binary_path" ]] || die "باینری پیدا نشد در ${binary_path}"
+  [[ -f "$binary_path" ]] || die "Binary not found at ${binary_path}"
 
-  info "ساخت systemd service روی پورت ${PORT}..."
+  info "Creating systemd service on port ${PORT}..."
 
   cat > "$service_file" <<EOF
 [Unit]
@@ -235,9 +240,9 @@ EOF
 
   sleep 2
   if systemctl is-active --quiet "$SERVICE_NAME"; then
-    log "سرویس فعال شد"
+    log "Service is active"
   else
-    warn "سرویس راه نیفتاد — لاگ‌ها رو ببین"
+    warn "Service did not start - check logs"
   fi
 }
 
@@ -247,30 +252,29 @@ show_finale() {
   [[ -z "$ip" ]] && ip="YOUR_SERVER_IP"
 
   echo
-  echo -e "${GREEN}${BOLD}╔══════════════════════════════════════════════════════════╗${RESET}"
-  echo -e "${GREEN}${BOLD}║          ✓  نصب با موفقیت کامل شد!                     ║${RESET}"
-  echo -e "${GREEN}${BOLD}╚══════════════════════════════════════════════════════════╝${RESET}"
+  echo -e "${GREEN}${BOLD}+==========================================================+${RESET}"
+  echo -e "${GREEN}${BOLD}|            Installation completed successfully!         |${RESET}"
+  echo -e "${GREEN}${BOLD}+==========================================================+${RESET}"
   echo
 
   if [[ "$INSTALL_SERVICE" == true ]]; then
-    echo -e "  ${CYAN}🌐 آدرس وب پنل:${RESET}     ${BOLD}http://${ip}:${PORT}${RESET}"
-    echo -e "  ${CYAN}📊 وضعیت سرویس:${RESET}    ${DIM}systemctl status ${SERVICE_NAME}${RESET}"
-    echo -e "  ${CYAN}📝 مشاهده لاگ:${RESET}     ${DIM}journalctl -fu ${SERVICE_NAME}${RESET}"
-    echo -e "  ${CYAN}⏹  توقف سرویس:${RESET}     ${DIM}systemctl stop ${SERVICE_NAME}${RESET}"
-    echo -e "  ${CYAN}🔄 ریستارت:${RESET}        ${DIM}systemctl restart ${SERVICE_NAME}${RESET}"
+    echo -e "  ${CYAN}>>${RESET} Web Panel:        ${BOLD}http://${ip}:${PORT}${RESET}"
+    echo -e "  ${CYAN}>>${RESET} Service status:   ${DIM}systemctl status ${SERVICE_NAME}${RESET}"
+    echo -e "  ${CYAN}>>${RESET} View logs:        ${DIM}journalctl -fu ${SERVICE_NAME}${RESET}"
+    echo -e "  ${CYAN}>>${RESET} Stop service:     ${DIM}systemctl stop ${SERVICE_NAME}${RESET}"
+    echo -e "  ${CYAN}>>${RESET} Restart:          ${DIM}systemctl restart ${SERVICE_NAME}${RESET}"
   else
-    echo -e "  ${CYAN}▶ اجرا:${RESET}            ${BOLD}cd ${WORK_DIR} && ./${BINARY_NAME}${RESET}"
-    echo -e "  ${CYAN}▶ پورت دلخواه:${RESET}     ${BOLD}./${BINARY_NAME} 9090${RESET}"
-    echo -e "  ${CYAN}▶ نصب به‌عنوان سرویس:${RESET}"
-    echo -e "                       ${DIM}sudo bash install.sh --service --port ${PORT}${RESET}"
+    echo -e "  ${CYAN}>>${RESET} Run:              ${BOLD}cd ${WORK_DIR} && ./${BINARY_NAME}${RESET}"
+    echo -e "  ${CYAN}>>${RESET} Custom port:      ${BOLD}./${BINARY_NAME} 9090${RESET}"
+    echo -e "  ${CYAN}>>${RESET} Install service:  ${DIM}sudo bash install.sh --service --port ${PORT}${RESET}"
   fi
 
   echo
-  echo -e "${DIM}  ─────────────────────────────────────────────────────${RESET}"
-  echo -e "  ${PINK}▶${RESET} YouTube : ${BOLD}https://youtube.com/@T2hsh${RESET}"
-  echo -e "  ${CYAN}✈${RESET} Telegram: ${BOLD}https://t.me/T2HASHCHANNEL${RESET}"
-  echo -e "  ${GREEN}⌥${RESET} GitHub  : ${BOLD}https://github.com/T2HASH${RESET}"
-  echo -e "${DIM}  ─────────────────────────────────────────────────────${RESET}"
+  echo -e "${DIM}  -----------------------------------------------------${RESET}"
+  echo -e "  ${PINK}>${RESET} YouTube : ${BOLD}https://youtube.com/@T2hsh${RESET}"
+  echo -e "  ${CYAN}>${RESET} Telegram: ${BOLD}https://t.me/T2HASHCHANNEL${RESET}"
+  echo -e "  ${GREEN}>${RESET} GitHub  : ${BOLD}https://github.com/T2HASH${RESET}"
+  echo -e "${DIM}  -----------------------------------------------------${RESET}"
   echo
 }
 
@@ -278,36 +282,36 @@ main() {
   print_banner
 
   if [[ "$INSTALL_SERVICE" == true ]] && [[ "$EUID" -ne 0 ]]; then
-    die "برای نصب سرویس باید root باشی: sudo bash install.sh --service"
+    die "Service install requires root: sudo bash install.sh --service"
   fi
 
-  step "بررسی پیش‌نیازها"
+  step "Checking dependencies"
   check_deps
-  log "ابزارهای پایه آماده‌ست"
+  log "Base tools ready"
 
-  step "بررسی Go"
+  step "Checking Go"
   if [[ "$SKIP_GO" == true ]]; then
-    warn "Skip Go installation"
+    warn "Skipping Go installation"
   elif go_ok; then
     local v
     v=$(go version | grep -oE 'go[0-9]+\.[0-9]+\.[0-9]+' | head -1)
-    log "${v} موجوده"
+    log "${v} found"
   else
-    warn "Go نصب نیست یا نسخه قدیمیه"
+    warn "Go not installed or version too old"
     if [[ "$EUID" -ne 0 ]]; then
-      die "برای نصب Go باید root باشی"
+      die "Root required to install Go"
     fi
     install_go
   fi
 
-  step "آماده‌سازی سورس"
+  step "Preparing source"
   fetch_source
 
-  step "Build کردن"
+  step "Building"
   build_binary
 
   if [[ "$INSTALL_SERVICE" == true ]]; then
-    step "نصب به‌عنوان سرویس"
+    step "Installing as service"
     install_binary
     install_systemd_service
   fi
