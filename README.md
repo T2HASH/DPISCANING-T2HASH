@@ -15,11 +15,11 @@
 
 <br/>
 
-[![Version](https://img.shields.io/badge/version-2.3-00ff88?style=for-the-badge&logo=semver&logoColor=white&labelColor=050b14)](https://github.com/T2HASH/t2hash-scanner)
+[![Version](https://img.shields.io/badge/version-2.3-00ff88?style=for-the-badge&logo=semver&logoColor=white&labelColor=050b14)](https://github.com/T2HASH/DPISCANING-T2HASH)
 [![Go](https://img.shields.io/badge/Go-1.18+-00c8ff?style=for-the-badge&logo=go&logoColor=white&labelColor=050b14)](https://go.dev)
 [![License](https://img.shields.io/badge/license-MIT-8b5cf6?style=for-the-badge&logoColor=white&labelColor=050b14)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-fbbf24?style=for-the-badge&logo=linux&logoColor=white&labelColor=050b14)]()
-[![Stars](https://img.shields.io/github/stars/T2HASH/t2hash-scanner?style=for-the-badge&logo=github&logoColor=white&color=f472b6&labelColor=050b14)](https://github.com/T2HASH/t2hash-scanner/stargazers)
+[![Stars](https://img.shields.io/github/stars/T2HASH/DPISCANING-T2HASH?style=for-the-badge&logo=github&logoColor=white&color=f472b6&labelColor=050b14)](https://github.com/T2HASH/DPISCANING-T2HASH/stargazers)
 
 <br/>
 
@@ -136,9 +136,9 @@ sudo bash <(curl -fsSL https://raw.githubusercontent.com/T2HASH/DPISCANING-T2HAS
 
 ```bash
 git clone https://github.com/T2HASH/DPISCANING-T2HASH.git
-cd DPISCANING-T2HASH
-go build -o DPISCANING-T2HASH .
-./DPISCANING-T2HASH
+cd t2hash-scanner
+go build -o t2hash-scanner .
+./t2hash-scanner
 ```
 
 سپس مرورگر رو باز کن:
