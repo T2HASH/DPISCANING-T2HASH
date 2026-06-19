@@ -36,7 +36,7 @@
 ```
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/T2HASH/t2hash-scanner/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/T2HASH/DPISCANING-T2HASH/main/install.sh)
 ```
 
 </div>
@@ -123,22 +123,22 @@ bash <(curl -fsSL https://raw.githubusercontent.com/T2HASH/t2hash-scanner/main/i
 - اختیاری سرویس systemd ثبت می‌کنه
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/T2HASH/t2hash-scanner/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/T2HASH/DPISCANING-T2HASH/main/install.sh)
 ```
 
 برای نصب به‌عنوان سرویس پس‌زمینه:
 
 ```bash
-sudo bash <(curl -fsSL https://raw.githubusercontent.com/T2HASH/t2hash-scanner/main/install.sh) --service --port 8080
+sudo bash <(curl -fsSL https://raw.githubusercontent.com/T2HASH/DPISCANING-T2HASH/main/install.sh) --service --port 8080
 ```
 
 ### 🛠 روش ۲ — نصب دستی
 
 ```bash
-git clone https://github.com/T2HASH/t2hash-scanner.git
-cd t2hash-scanner
-go build -o t2hash-scanner .
-./t2hash-scanner
+git clone https://github.com/T2HASH/DPISCANING-T2HASH.git
+cd DPISCANING-T2HASH
+go build -o DPISCANING-T2HASH .
+./DPISCANING-T2HASH
 ```
 
 سپس مرورگر رو باز کن:
