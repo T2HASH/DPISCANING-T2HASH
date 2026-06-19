@@ -1,80 +1,178 @@
 <div align="center">
 
-# ⚡️ M U L T I - D P I - S C A N N I N G ⚡️
-### 👑 The Ultimate Layer-0 Network Engine (Beta v1.0) 👑
+```
+ ████████╗██████╗ ██╗  ██╗ █████╗ ███████╗██╗  ██╗    ███████╗ ██████╗ █████╗ ███╗   ██╗███╗   ██╗███████╗██████╗
+    ██╔══╝╚════██╗██║  ██║██╔══██╗██╔════╝██║  ██║    ██╔════╝██╔════╝██╔══██╗████╗  ██║████╗  ██║██╔════╝██╔══██╗
+    ██║    █████╔╝███████║███████║███████╗███████║    ███████╗██║     ███████║██╔██╗ ██║██╔██╗ ██║█████╗  ██████╔╝
+    ██║    ╚═══██╗██╔══██║██╔══██║╚════██║██╔══██║    ╚════██║██║     ██╔══██║██║╚██╗██║██║╚██╗██║██╔══╝  ██╔══██╗
+    ██║   ██████╔╝██║  ██║██║  ██║███████║██║  ██║    ███████║╚██████╗██║  ██║██║ ╚████║██║ ╚████║███████╗██║  ██║
+    ╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝    ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝
+```
 
-[![Bash](https://img.shields.io/badge/Language-Pure_Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)]()
-[![Status](https://img.shields.io/badge/Status-Beta_V1.0-FF8C00?style=for-the-badge)]()
-[![Creator](https://img.shields.io/badge/Creator-t2hash-00BFFF?style=for-the-badge)]()
-[![License](https://img.shields.io/badge/License-Open_Source-red?style=for-the-badge)]()
+**اسکنر IP با کارایی بالا و رابط وب real-time**  
+نوشته‌شده با Go خالص — بدون dependency، یک باینری، همه‌جا اجرا می‌شه.
 
-*“Where others see roadblocks, we see bytes. Welcome to the Layer-0.”* *(جایی که بقیه بن‌بست می‌بینند، ما بایت‌ها را می‌بینیم. به لایه صفر خوش آمدید.)*
+[![Go Version](https://img.shields.io/badge/Go-1.18+-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
+[![License](https://img.shields.io/badge/License-MIT-00ff88?style=flat-square)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-0088ff?style=flat-square)]()
+[![Author](https://img.shields.io/badge/Author-t2hash-9b5de5?style=flat-square)](https://github.com/t2hash)
 
-<br>
-<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2FjMzI1Yzk4MmRkOGNhMzE1YTE1YWI0MmJhZmVjYmZiNjg2MWY3OCZlcD12MV9pbnRlcm5hbF9naWZzX3NlYXJjaCZjdD1n/L1R1tvI9svkVDsRjSU/giphy.gif" width="400" alt="Cyberpunk Hacker GIF">
 </div>
 
 ---
 
-آپدیت غول‌آسای نسخه1.2۰ (Spectre Engine)
-در این نسخه، اسکریپت از یک ابزار ساده به یک موتور آنالیز پیشرفته تبدیل شده است:
+## درباره پروژه
 
-تشخیص فیلترینگ (DPI Sniper): شناسایی در لحظه‌ی پکت‌های جعلی و مسدودی SNI.
+t2hash-scanner یه اسکنر شبکه‌ی self-contained هست که یه رابط وب از طریق HTTP سرو می‌کنه. رنج‌های CIDR یا IP های تکی رو اسکن می‌کنه، پورت‌های TCP رو به‌صورت همزمان تست می‌کنه، latency هر IP رو اندازه می‌گیره، و اختیاری HTTP/HTTPS ریسپانس رو چک می‌کنه — همه‌چیز real-time از طریق Server-Sent Events به مرورگر استریم می‌شه.
 
-رفع قطعی تانل (MTU Discovery): پیدا کردن خودکار بهترین سایز پکت برای پایداری کامل اتصال.
-
-هویت‌سنجی زیرساخت (Arvan Sniper): استخراج آی‌پی‌های پشت پرده و متادیتای دیتاسنتر.
-
-اسکنر هوشمند کلودفلر: پیدا کردن تمیزترین آی‌پی‌ها با سرعت خیره‌کننده.
-
-تست پینگ ۳ مرحله‌ای: عیب‌یابی دقیق گلوگاه سرعت بین ایران و خارج.
-
-🔓 این نسخه کاملاً رایگان (Open Source) و بدون نیاز به لایسنس است.
-
-حمایت شما انرژی برای خفن کردن پروژه رو بیشتر میکنه:❤️ تتر بر بستر ترون TRC20
-[TBB5P2qzk4yigZzvErEPGq2Ha3nww41MwM]
-
-## 🩸 Philosophy | فلسفه این ابزار
-در تاریک‌خانه شبکه‌های فیلترینگ، داشتن پینگِ خوب کافی نیست. شما باید بدانید زیر کاپوتِ سیستم‌عامل و در لایه مسیریابی چه می‌گذرد. **Multi DPI Scanning** یک اسکریپت ساده نیست؛ این یک **موتورِ پردازشیِ لایه صفر** است که مستقیماً با هسته‌ی لینوکس (Kernel) صحبت می‌کند. 
-
-ما اینجا نیازی به پکیج‌های سنگین و ابزارهای گرافیکی نداریم. منطقِ این ابزار، الهام‌گرفته از **دقتِ اسمبلی و پردازشِ رجیسترهاست**؛ سریع، بی‌نقص، سایلنت و کُشندهwrwr! ☠️
-
-> **⚠️ اخطار نسخه BETA:** > این ابزار فعلاً در فاز آزمایشی (Beta) قرار دارد. اگر می‌خواهید در نسخه‌های بعدی، امکاناتِ وحشتناک‌تری (مثل تزریق مستقیم آی‌پی به کانفیگِ V2ray و تستِ پکت‌لاسِ اتوماتیک) اضافه شود، **همین الان اون دکمه‌ی ⭐️ Star رو اون بالا بکوبید** تا انرژی لازم برای توسعه تزریق بشه! 🔋
+هیچ کتابخانه خارجی، npm یا Docker نیاز نیست. یه `go build` یه باینری قابل حمل می‌سازه.
 
 ---
 
-## 🚀 The Arsenal (امکانات و معماری فنی زیر کاپوت)
+## قابلیت‌ها
 
-### 👁️‍🗨️ ۱. کالبدشکافی زنده (Live Packet Analyzer)
-سیستم‌های فیلترینگ پکت‌های شما را دستکاری می‌کنند؟ با این ماژول مچ آن‌ها را بگیرید.
-* **🔧 Under the Hood:** این ماژول با تزریقِ فلگ‌های `-nn -vv -X` به `tcpdump`، تمامِ سربارِ (Overhead) تبدیل DNS را حذف می‌کند.
-* **🧠 The Logic:** پکت‌ها به صورت خام در دو مبنای **Hex (شانزده‌شانزدهی)** و **ASCII** روی ترمینال شما رندر می‌شوند. شما می‌توانید دقیقاً ببینید آیا دیتای شما (Payload) به صورت Plain-text نشت می‌کند یا رمزنگاریِ قدرتمندی دارد.
-
-### 🕸️ ۲. ردیاب هوشمند دامنه (SNI / Domain Tracker)
-پیدا کردنِ دامنه‌ی شما در دریایی از ترافیک، مثل پیدا کردن سوزن در انبار کاه است.
-* **🔧 Under the Hood:** خروجی خامِ کارت شبکه مستقیماً به یک پردازشگرِ متنیِ بلادرنگ (`grep --line-buffered`) پایپ (Pipe) می‌شود.
-* **🧠 The Logic:** فایروال‌ها معمولاً ترافیک را با خواندن بخش **SNI** در پکت `ClientHello` (قبل از رمزنگاری TLS) مسدود می‌کنند. این ماژول دقیقاً همین پکت را روی هوا می‌قاپد تا نشان دهد آیا دامنه‌ی شما اصلاً از ایران خارج می‌شود یا در همان لبه‌ی شبکه `Drop` می‌شود.
-
-### ⚕️ ۳. تحلیل‌گر هوشمند وضعیت (Automated Health Analyzer)
-دیگر نیازی نیست هزاران خط لاگِ شبکه را با چشم بخوانید. ماشینِ وضعیتِ ما این کار را برایتان می‌کند.
-* **🔧 Under the Hood:** این ماژول یک مینی‌باتِ هوشمند است که **پرچم‌های پروتکل TCP** (TCP Flags) را در لحظه ترجمه می‌کند.
-* **🧠 The Logic:**
-  * 🔴 **پرچم `[R]` (Reset):** فایروال در حالِ قتل‌عامِ کانکشن شماست.
-  * 🟢 **پرچم `[S.]` (SYN-ACK):** دست‌تکان‌دادن (Handshake) با موفقیت انجام شد.
-  * 🔵 **پرچم `[P.]` (PSH):** تانل پایدار است و دیتای کاربر در حال پمپاژ شدن است.
-
-### ☢️ ۴. شخم‌زنِ عمیق کلادفلر (Deep Cloudflare Sweeper)
-پیدا کردن آی‌پیِ تمیز در ایران یک هنر است. ما این هنر را صنعتی کرده‌ایم!
-* **🔧 Under the Hood:** اسکن کردن بلوکیِ آی‌پی‌ها با روش‌های سنتی ساعت‌ها طول می‌کشد. ما از قدرتِ ابزار `xargs` برای ایجاد **۲۰۰ ریسمانِ پردازشی موازی (200 Concurrent Threads)** استفاده کرده‌ایم.
-* **🧠 The Logic:** به جای پینگِ ساده (ICMP) که به راحتی توسط GFW دستکاری می‌شود، موتورِ ما با استفاده از پروتکل `HTTP (Layer 7)` زمان واقعی اتصال (`Time to Connect`) را می‌سنجد. کافیست یک رنجِ بکر (مثل `190.93.x.x`) به آن بدهید تا در چند ثانیه،
-*
-* سریع‌ترین آی‌پی‌های مخفیِ جهان را برایتان لیست کند.
+- **اسکن همزمان** — pool قابل تنظیم goroutine، تا ۵۰۰۰ worker موازی
+- **پشتیبانی از CIDR و IP تکی** — چند رنج در یه session، deduplication خودکار
+- **range پورت** — ورودی مثل `8000-8010` کنار پورت‌های جداگانه
+- **UI real-time** — نتایج از طریق SSE استریم می‌شن بدون polling، latency زیر ثانیه
+- **آمار زنده** — IPs/sec، تعداد alive، زمان گذشته، نوار پیشرفت
+- **پروب HTTP** — درخواست HEAD اختیاری با ثبت response code و پشتیبانی TLS
+- **رنگ‌بندی latency** — سبز < 150ms / زرد < 500ms / قرمز > 500ms
+- **جدول قابل sort** — روی هر ستون کلیک کن (IP، latency، پورت‌ها، وضعیت)
+- **فیلتر زنده** — نتایج رو با substring IP فیلتر کن بدون reload
+- **حالت shuffle** — ترتیب اسکن رو برای توزیع بار رندوم کن
+- **دانلود CSV و JSON** — با یه کلیک تمام نتایج رو دانلود کن
+- **preset های آماده** — Cloudflare (همه رنج‌ها)، Gcore، Fastly، و preset پورت برای Web / Xray / WARP / Common
+- **stop تمیز** — لغو وسط scan، نتایج جزئی حفظ می‌شن
+- **یه فایل** — کل backend + frontend در یه `main.go`، بدون پوشه asset
 
 ---
 
-## 💻 Deployment (نصب و اجرای سریع)
+## شروع سریع
 
-بدون نیاز به کلون کردن یا تنظیمات اضافه. فقط کافیست وارد ترمینالِ سرور لینوکسی خود (Ubuntu/Debian) شوید و طلسم زیر را کپی و پیست کنید:
-hdj
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/T2HASH/DPISCANING-T2HASH/refs/heads/main/t2hash.sh) 
+git clone https://github.com/t2hash/t2hash-scanner
+cd t2hash-scanner
+go run main.go
+```
+
+مرورگر رو باز کن: **http://localhost:8080**
+
+برای پورت دلخواه:
+
+```bash
+go run main.go 9000
+```
+
+---
+
+## نصب
+
+### نصب خودکار (لینوکس)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/t2hash/t2hash-scanner/main/install.sh | bash
+```
+
+این اسکریپت architecture رو detect می‌کنه، اگه Go نداشت نصب می‌کنه، باینری می‌سازه، و اختیاری یه systemd service ثبت می‌کنه.
+
+### build دستی
+
+```bash
+git clone https://github.com/t2hash/t2hash-scanner
+cd t2hash-scanner
+
+go build -o t2hash-scanner .
+
+./t2hash-scanner          # روی :8080
+./t2hash-scanner 9090     # پورت دلخواه
+```
+
+### اجرا به‌عنوان سرویس پس‌زمینه
+
+```bash
+sudo bash install.sh --service --port 8080
+systemctl status t2hash-scanner
+```
+
+---
+
+## تنظیمات
+
+همه چیز از طریق UI قابل تنظیمه. فایل config لازم نیست.
+
+| فیلد | پیش‌فرض | توضیح |
+|---|---|---|
+| CIDR / IPs | — | رنج‌های جداشده با خط جدید یا IP تکی. خطوطی که با `#` شروع می‌شن نادیده گرفته می‌شن. |
+| Ports | `80,443,8080,8443,2053,2083,2086,2087,2096` | comma-separated. از range مثل `8000-8010` پشتیبانی می‌کنه. |
+| Concurrency | `500` | تعداد goroutine های همزمان. حداکثر ۵۰۰۰. |
+| Timeout | `2000 ms` | timeout TCP برای هر connection. |
+| Shuffle IPs | روشن | ترتیب اسکن رو رندوم می‌کنه. |
+| Only alive | روشن | IP های unreachable رو از نتایج پنهان می‌کنه. |
+| Check HTTP | خاموش | یه درخواست HEAD به پورت‌های باز می‌فرسته و response code رو ثبت می‌کنه. |
+
+---
+
+## Preset های پورت
+
+| Preset | پورت‌ها |
+|---|---|
+| Web | `80، 443، 8080، 8443` |
+| Xray / CF | `80، 443، 2053، 2083، 2086، 2087، 2096، 8080، 8443، 8880` |
+| WARP | `500، 854، 859، 864، 878، 880، 2408 و...` |
+| Extended | `80، 443، رنج 2052-2096، 8080-8888` |
+| Common | `21، 22، 25، 53، 80، 443، 3306، 3389، 6379، 8080، 27017` |
+
+---
+
+## REST API
+
+اگه می‌خوای integrate کنی یا اسکریپت بنویسی:
+
+**شروع اسکن**
+```
+POST /api/scan/start
+Content-Type: application/json
+
+{
+  "cidrs":        "104.16.0.0/13\n172.64.0.0/13",
+  "ports":        "80,443,8080",
+  "timeout_ms":   2000,
+  "concurrency":  500,
+  "shuffle":      true,
+  "only_alive":   true,
+  "check_http":   false
+}
+```
+
+**توقف اسکن**
+```
+POST /api/scan/stop
+```
+
+**وضعیت**
+```
+GET /api/status
+→ { "active": true }
+```
+
+**دریافت نتایج real-time (SSE)**
+```
+GET /events
+```
+
+نوع event ها: `result`، `stats`، `done`
+
+---
+
+## پیش‌نیازها
+
+- Go نسخه 1.18 یا بالاتر
+- هر سیستم لینوکس / macOS (ویندوز هم با `go run` کار می‌کنه)
+- هیچ کتابخانه خارجی — فقط standard library
+
+---
+
+## لایسنس
+
+MIT © 2024 — [t2hash](https://github.com/t2hash)
