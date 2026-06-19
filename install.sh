@@ -2,7 +2,7 @@
 set -euo pipefail
 
 VERSION="2.3"
-GO_VERSION="1.22.4"
+GO_VERSION="1.26.4"
 REPO_URL="https://github.com/T2HASH/DPISCANING-T2HASH"
 RAW_URL="https://raw.githubusercontent.com/T2HASH/DPISCANING-T2HASH/main"
 INSTALL_DIR="/usr/local"
