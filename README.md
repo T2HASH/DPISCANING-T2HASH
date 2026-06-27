@@ -468,3 +468,5 @@ chmod +x /usr/local/bin/xray
 ```
 
 </div>
+
+T2HASH
